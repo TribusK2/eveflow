@@ -84,14 +84,14 @@ export class ClockComponent implements OnInit, OnDestroy {
   }
 
   startTimeFlow() {
-    if(this.timeFlow){
+    if (this.timeFlow) {
       clearInterval(this.timeFlow);
     }
     let s = 0;
     let m = parseInt(this.minute);
     let h = parseInt(this.hour);
     return setInterval(() => {
-      if(h > 23){
+      if (h > 23) {
         h = 0; m = 0; s = 0;
         this.changeTime({ hour: h, minute: m, seconds: s });
         return
@@ -112,18 +112,17 @@ export class ClockComponent implements OnInit, OnDestroy {
   }
 
   onInputChange(event: any, item: string) {
-    console.log(event.target.value)
-    // let value = parseInt(event.target.value);
-    // if (item === 'hour') {
-    //   value > 23 ? value = 23 : value;
-    //   value < 0 ? value = 0 : value;
-    //   this.changeTime({ hour: value });
-    // };
-    // if (item === 'minute') {
-    //   value > 59 ? value = 59 : value;
-    //   value < 0 ? value = 0 : value;
-    //   this.changeTime({ minute: value })
-    // };
+    let value = parseInt(event.target.value);
+    if (item === 'hour') {
+      value > 23 ? value = 23 : value;
+      value < 0 ? value = 0 : value;
+      this.changeTime({ hour: value });
+    };
+    if (item === 'minute') {
+      value > 59 ? value = 59 : value;
+      value < 0 ? value = 0 : value;
+      this.changeTime({ minute: value })
+    };
   }
 
 
@@ -136,7 +135,7 @@ export class ClockComponent implements OnInit, OnDestroy {
     this.minute = minute;
   }
 
-  updateDialClock(newHour: number, newMinute: number, newSeconds: number):void {
+  updateDialClock(newHour: number, newMinute: number, newSeconds: number): void {
     const smHandAngle = newHour * 30 + newMinute * 0.5 + newSeconds * 0.01;
     const lgHandAngle = newMinute * 6 + newSeconds * 0.1;
     this.renderer.setStyle(this.smHand.nativeElement, 'transform', `rotateZ(${smHandAngle}deg)`)
@@ -147,13 +146,11 @@ export class ClockComponent implements OnInit, OnDestroy {
     this.clockService.changeTime(newTime);
   }
 
-  toggleEditMode(){
-    
-    if(this.noEditMode){
-      
-        clearInterval(this.timeFlow);
-      
-    }else{
+  toggleEditMode() {
+
+    if (this.noEditMode) {
+      clearInterval(this.timeFlow);
+    } else {
       this.timeFlow = this.startTimeFlow();
     }
     this.noEditMode = !this.noEditMode;
