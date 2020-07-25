@@ -1,8 +1,23 @@
-<div class="clock-dial" #clockDial>
-  <div class="clock-dial__markers" *ngFor="let marker of markers"
-    [ngStyle]="{'transform': 'translate('+marker.posX+'px, '+marker.posY+'px) rotateZ('+marker.rotate+'deg)'}">
+<div class="clocks">
+  <div class="clock-dial" #clockDial>
+    <div class="clock-dial__markers" *ngFor="let marker of markers"
+      [ngStyle]="{'transform': 'translate('+marker.posX+'px, '+marker.posY+'px) rotateZ('+marker.rotate+'deg)'}">
+    </div>
+    <div class="clock-dial__center"></div>
+    <div class="clock-dial__lg-hand"></div>
+    <div class="clock-dial__sm-hand"></div>
   </div>
-  <div class="clock-dial__center"></div>
-  <div class="clock-dial__lg-hand"></div>
-  <div class="clock-dial__sm-hand"></div>
+
+  <div class="clock-digital">
+    <div class="clock-digital__display">
+      <input class="clock-digital__input" type="text">
+    </div>
+    <div class="clock-digital__separator">
+      <div class="clock-digital__dot"></div>
+      <div class="clock-digital__dot"></div>
+    </div>
+    <div class="clock-digital__display">
+      <input class="clock-digital__input" type="text">
+    </div>
+  </div>
 </div>

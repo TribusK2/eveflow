@@ -1,6 +1,9 @@
 // clock
-$clock-dial-size: 70vh;
-$colck-dial-frame: 15px;
-$colck-dial-lg-hang-offset: $clock-dial-size*0.1;
-$colck-dial-sm-hang-offset: $clock-dial-size*0.2;
+$clock-dial-size: 60vh;
+$clock-dial-frame: $clock-dial-size/20;
+$clock-dial-lg-hang-offset: $clock-dial-size*0.1;
+$clock-dial-sm-hang-offset: $clock-dial-size*0.2;
+
+$clock-digital-size: $clock-dial-size;
+$clock-digital-frame: $clock-dial-frame/2;
 // clock // end

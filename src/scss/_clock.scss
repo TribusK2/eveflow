@@ -1,48 +1,84 @@
-@use './variables';
+.clocks {
+  position: absolute;
+}
 
-.clock-dial{
-    height: $clock-dial-size;
-    width: $clock-dial-size;
-    border: $colck-dial-frame solid $clock-dial-main-color;
-    border-radius: calc((#{$clock-dial-size} + 2*#{$colck-dial-frame})/2);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.clock-dial {
+  @include center-items;
+  height: $clock-dial-size;
+  width: $clock-dial-size;
+  border: $clock-dial-frame solid $clock-dial-main-color;
+  border-radius: calc((#{$clock-dial-size} + 2*#{$clock-dial-frame})/2);
+  position: relative;
 
-    &__markers{
-        height: 20px;
-        width: $colck-dial-frame/4;
-        background-color: $clock-dial-main-color;
-        position: absolute;
-        top: 0;
-        transform-origin: top;
-    }
+  &__markers {
+    height: $clock-dial-size/15;
+    width: $clock-dial-frame/4;
+    background-color: $clock-dial-main-color;
+    position: absolute;
+    top: 0;
+    transform-origin: top;
+  }
 
-    &__center{
-        height: $colck-dial-frame;
-        width: $colck-dial-frame;
-        background-color: $clock-dial-main-color;
-        border-radius: $colck-dial-frame/2;
-        position: absolute;
-    }
+  &__center {
+    height: $clock-dial-frame;
+    width: $clock-dial-frame;
+    background-color: $clock-dial-main-color;
+    border-radius: $clock-dial-frame/2;
+    position: absolute;
+  }
 
-    &__lg-hand{
-        width: $colck-dial-frame/2;
-        height: calc(#{$clock-dial-size}/2 - #{$colck-dial-lg-hang-offset});
-        background-color: $clock-dial-main-color;
-        position: absolute;
-        top: $colck-dial-lg-hang-offset;
-        transform-origin: bottom;
-    }
+  &__lg-hand {
+    width: $clock-dial-frame/2;
+    height: calc(#{$clock-dial-size}/2 - #{$clock-dial-lg-hang-offset});
+    background-color: $clock-dial-main-color;
+    position: absolute;
+    top: $clock-dial-lg-hang-offset;
+    transform-origin: bottom;
+  }
 
-    &__sm-hand{
-        width: $colck-dial-frame/1.5;
-        height: calc(#{$clock-dial-size}/2 - #{$colck-dial-sm-hang-offset});
-        background-color: $clock-dial-main-color;
-        position: absolute;
-        top: $colck-dial-sm-hang-offset;
-        transform-origin: bottom;
-    }
+  &__sm-hand {
+    width: $clock-dial-frame/1.5;
+    height: calc(#{$clock-dial-size}/2 - #{$clock-dial-sm-hang-offset});
+    background-color: $clock-dial-main-color;
+    position: absolute;
+    top: $clock-dial-sm-hang-offset;
+    transform-origin: bottom;
+  }
+
+}
+
+.clock-digital {
+  @include center-items;
+  width: $clock-digital-size;
+  height: $clock-digital-size/3;
+  border: $clock-digital-frame solid $clock-digital-main-color;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__display {
+    @include center-items;
+    width: 45%;
+    height: 100%;
+  }
+
+  &__input{
+    width: 80%;
+  }
+
+  &__separator{
+    @include center-items;
+    width: 10%;
+    flex-direction: column;
+  }
+
+  &__dot{
+    height: $clock-digital-size/20;
+    width: $clock-digital-size/20;
+    border-radius: $clock-digital-size/40;
+    background-color: $clock-dial-main-color;
+    margin-top: $clock-digital-size/30;
+    margin-bottom: $clock-digital-size/30;
+  }
 
 }

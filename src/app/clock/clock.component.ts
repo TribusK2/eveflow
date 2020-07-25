@@ -21,21 +21,30 @@ export class ClockComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    const clockHeight = parseInt(window.getComputedStyle(this.clockDial.nativeElement).getPropertyValue('height'));
+    this.setClockMarkers();
 
-    for (let i = 0; i < 12; i++) {
-      let marker: Marker = {
-        rotate: i * 30,
-        posX: (clockHeight/2) * Math.sin(i * 30 * (Math.PI / 180)),
-        posY: (-clockHeight/2) * Math.cos(i * 30 * (Math.PI / 180)) + clockHeight/2
-      };
-      this.markers.push(marker);
-    }
+    this.renderer.listen("window", "resize", () => {
+      this.setClockMarkers();
+    });
 
   }
 
-  ngAfterViewInit(){
-    
+  ngAfterViewInit() {
+
+  }
+
+  setClockMarkers() {
+    const clockHeight = parseInt(window.getComputedStyle(this.clockDial.nativeElement).getPropertyValue('height'));
+
+    this.markers = [];
+    for (let i = 0; i < 12; i++) {
+      let marker: Marker = {
+        rotate: i * 30,
+        posX: (clockHeight / 2) * Math.sin(i * 30 * (Math.PI / 180)),
+        posY: (-clockHeight / 2) * Math.cos(i * 30 * (Math.PI / 180)) + clockHeight / 2
+      };
+      this.markers.push(marker);
+    }
   }
 
 }
