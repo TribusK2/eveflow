@@ -5,4 +5,44 @@
     width: $clock-dial-size;
     border: $colck-dial-frame solid $clock-dial-main-color;
     border-radius: calc((#{$clock-dial-size} + 2*#{$colck-dial-frame})/2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &__markers{
+        height: 20px;
+        width: $colck-dial-frame/4;
+        background-color: $clock-dial-main-color;
+        position: absolute;
+        top: 0;
+        transform-origin: top;
+    }
+
+    &__center{
+        height: $colck-dial-frame;
+        width: $colck-dial-frame;
+        background-color: $clock-dial-main-color;
+        border-radius: $colck-dial-frame/2;
+        position: absolute;
+    }
+
+    &__lg-hand{
+        width: $colck-dial-frame/2;
+        height: calc(#{$clock-dial-size}/2 - #{$colck-dial-lg-hang-offset});
+        background-color: $clock-dial-main-color;
+        position: absolute;
+        top: $colck-dial-lg-hang-offset;
+        transform-origin: bottom;
+    }
+
+    &__sm-hand{
+        width: $colck-dial-frame/1.5;
+        height: calc(#{$clock-dial-size}/2 - #{$colck-dial-sm-hang-offset});
+        background-color: $clock-dial-main-color;
+        position: absolute;
+        top: $colck-dial-sm-hang-offset;
+        transform-origin: bottom;
+    }
+
 }
