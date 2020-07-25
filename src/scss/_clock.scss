@@ -1,0 +1,8 @@
+@use './variables';
+
+.clock-dial{
+    height: $clock-dial-size;
+    width: $clock-dial-size;
+    border: $colck-dial-frame solid $clock-dial-main-color;
+    border-radius: calc((#{$clock-dial-size} + 2*#{$colck-dial-frame})/2);
+}
