@@ -49,6 +49,7 @@
 
 .clock-digital {
   @include center-items;
+  @include hide-input-arrows;
   width: $clock-digital-size;
   height: $clock-digital-size/3;
   border: $clock-digital-frame solid $clock-digital-main-color;
@@ -64,6 +65,23 @@
 
   &__input{
     width: 80%;
+    height: 80%;
+    border: none;
+    font-size: 16vh;
+    text-align: center;
+    color: $clock-digital-main-color;
+
+    &::placeholder{
+      color: $clock-digital-main-color;
+    }
+
+    &--hours{
+      text-align: end;
+    }
+
+    &--minutes{
+      text-align: start;
+    }
   }
 
   &__separator{
@@ -76,9 +94,14 @@
     height: $clock-digital-size/20;
     width: $clock-digital-size/20;
     border-radius: $clock-digital-size/40;
-    background-color: $clock-dial-main-color;
+    background-color: $clock-digital-main-color;
     margin-top: $clock-digital-size/30;
     margin-bottom: $clock-digital-size/30;
+  }
+
+  form{
+    display: flex;
+    flex-flow: row wrap;
   }
 
 }
