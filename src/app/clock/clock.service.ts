@@ -8,7 +8,7 @@ import { CurrentTime } from './models/current-time.model';
 })
 export class ClockService {
 
-  private currentTime = new BehaviorSubject<CurrentTime>({ hour: 0, minute: 0 })
+  private currentTime = new BehaviorSubject<CurrentTime>({ hour: 0, minute: 0, seconds: 0 })
   public currentTime$ = this.currentTime.asObservable();
 
   constructor() { }

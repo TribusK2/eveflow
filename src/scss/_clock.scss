@@ -82,6 +82,11 @@
     &--minutes{
       text-align: start;
     }
+
+    &.readonly-input{
+      outline: none;
+      cursor: default;
+    }
   }
 
   &__separator{
