@@ -11,14 +11,14 @@
   <div class="clock-digital">
     <form [formGroup]="timeForm">
       <div class="clock-digital__display">
-        <input class="clock-digital__input clock-digital__input--hours" type="tel" formControlName="hourControl">
+        <input class="clock-digital__input clock-digital__input--hours" type="tel" (input)="onInputChange($event, 'hour')" formControlName="hourControl">
       </div>
       <div class="clock-digital__separator">
         <div class="clock-digital__dot"></div>
         <div class="clock-digital__dot"></div>
       </div>
       <div class="clock-digital__display">
-        <input class="clock-digital__input clock-digital__input--minutes" type="tel" formControlName="minuteControl">
+        <input class="clock-digital__input clock-digital__input--minutes" type="tel" (input)="onInputChange($event, 'minute')" formControlName="minuteControl">
       </div>
     </form>
   </div>

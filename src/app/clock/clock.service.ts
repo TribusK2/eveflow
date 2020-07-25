@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { CurrentTime } from './models/current-time.model';
 
@@ -8,17 +8,17 @@ import { CurrentTime } from './models/current-time.model';
 })
 export class ClockService {
 
-  private currentTime = new BehaviorSubject<CurrentTime>({hour: 0, minute: 0})
+  private currentTime = new BehaviorSubject<CurrentTime>({ hour: 0, minute: 0 })
   public currentTime$ = this.currentTime.asObservable();
 
   constructor() { }
 
-  getCurrentTime(){
+  getCurrentTime(): Observable<CurrentTime> {
     return this.currentTime$;
   }
 
-  changeTime(newTime: Partial<CurrentTime>){
-    this.currentTime.next({...this.currentTime.value, ...newTime});
+  changeTime(newTime: Partial<CurrentTime>): void {
+    this.currentTime.next({ ...this.currentTime.value, ...newTime });
   }
 
 }

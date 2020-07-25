@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
-import { Subscription, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Subscription, combineLatest, Observable, of, empty } from 'rxjs';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ClockService } from './clock.service';
@@ -27,6 +27,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   public hour: string;
   public minute: string;
   public timeForm: FormGroup;
+  private lastChangeSource: string;
 
   constructor(
     private renderer: Renderer2,
@@ -52,39 +53,45 @@ export class ClockComponent implements OnInit, OnDestroy {
       this.setClockMarkers();
     });
 
-    this.onTimeChange().subscribe((res: number[]) => {
-      const hourControl = this.timeForm.controls.hourControl;
-      hourControl.setValue(res[0], { emitEvent: false });
-      const minuteControl = this.timeForm.controls.minuteControl;
-      minuteControl.setValue(res[1], { emitEvent: false });
-      if (this.timeForm.valid) {
-        const hour = parseInt(hourControl.value);
-        const minute = parseInt(minuteControl.value);
-        this.changeTime({ hour, minute });
-        console.log(hour, minute);
-        hour < 10 ? hourControl.setValue(`0${hour}`, { emitEvent: false }) : hourControl.setValue(`${hour}`, { emitEvent: false });
-        minute < 10 ? minuteControl.setValue(`0${minute}`, { emitEvent: false }) : minuteControl.setValue(`${minute}`, { emitEvent: false });
-      } else {
-        if (hourControl.errors && hourControl.errors.max) hourControl.setValue(hourControl.errors.max.max);
-        if (hourControl.errors && hourControl.errors.min) hourControl.setValue(hourControl.errors.min.min);
-        if (hourControl.errors && hourControl.errors.pattern) hourControl.setValue('00');
+    // this.onTimeChange().subscribe((res: number[]) => {
+    //   const hourControl = this.timeForm.controls.hourControl;
+    //   hourControl.setValue(res[0], { emitEvent: false });
+    //   const minuteControl = this.timeForm.controls.minuteControl;
+    //   minuteControl.setValue(res[1], { emitEvent: false });
+    //   if (this.timeForm.valid) {
+    //     this.updateClock(hourControl.value, minuteControl.value, 'inside');
+    //   } else {
+    //     if (hourControl.errors && hourControl.errors.max) hourControl.setValue(hourControl.errors.max.max);
+    //     if (hourControl.errors && hourControl.errors.min) hourControl.setValue(hourControl.errors.min.min);
+    //     if (hourControl.errors && hourControl.errors.pattern) hourControl.setValue('00');
 
-        if (minuteControl.errors && minuteControl.errors.max) minuteControl.setValue(minuteControl.errors.max.max);
-        if (minuteControl.errors && minuteControl.errors.min) minuteControl.setValue(minuteControl.errors.min.min);
-        if (minuteControl.errors && minuteControl.errors.pattern) minuteControl.setValue('00');
-      }
-    });
+    //     if (minuteControl.errors && minuteControl.errors.max) minuteControl.setValue(minuteControl.errors.max.max);
+    //     if (minuteControl.errors && minuteControl.errors.min) minuteControl.setValue(minuteControl.errors.min.min);
+    //     if (minuteControl.errors && minuteControl.errors.pattern) minuteControl.setValue('00');
+    //   }
+    // });
 
 
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
-      console.log(res)
+
+      this.updateClock(res.hour, res.minute);
+
+      
     })
 
     this.setInitTime(this.initTime);
 
+    setTimeout(() => {
+      this.changeTime({ hour: 5, minute: 3333 })
+    }, 3000);
+
+    setTimeout(() => {
+      this.changeTime({ hour: 5, minute: 3 })
+    }, 6000);
+
   }
 
-  setClockMarkers() {
+  setClockMarkers(): void {
     const clockHeight = parseInt(window.getComputedStyle(this.clockDial.nativeElement).getPropertyValue('height'));
 
     this.markers = [];
@@ -98,26 +105,53 @@ export class ClockComponent implements OnInit, OnDestroy {
     }
   }
 
-  getCurrentTime() {
+  getCurrentTime(): Observable<CurrentTime> {
     return this.clockService.getCurrentTime();
   }
 
-  setInitTime(initTime: CurrentTime) {
-    this.timeForm.controls.hourControl.setValue(initTime.hour);
-    this.timeForm.controls.minuteControl.setValue(initTime.minute);
+  setInitTime(initTime: CurrentTime): void {
+    this.changeTime(initTime);
   }
 
-  onTimeChange() {
-    const hour$ = this.timeForm.controls.hourControl.valueChanges;
-    const minute$ = this.timeForm.controls.minuteControl.valueChanges;
-    return combineLatest(hour$, minute$);
+  onInputChange(event: any, item:string){
+    let value = parseInt(event.target.value);
+    if(item === 'hour') this.changeTime({hour: value});
+    if(item === 'minute') this.changeTime({minute: value});
   }
 
-  changeTime(newTime: Partial<CurrentTime>) {
+
+  updateClock(newHour: number | string, newMinute: number | string): void {
+    const hourControl = this.timeForm.controls.hourControl;
+    const minuteControl = this.timeForm.controls.minuteControl;
+    const hour = typeof newHour === 'string' ? parseInt(newHour) : newHour;
+    const minute = typeof newMinute === 'string' ? parseInt(newMinute) : newMinute;
+
+    hour < 10 ? hourControl.setValue(`0${hour}`, { emitEvent: false }) : hourControl.setValue(`${hour}`, { emitEvent: false });
+    minute < 10 ? minuteControl.setValue(`0${minute}`, { emitEvent: false }) : minuteControl.setValue(`${minute}`, { emitEvent: false });
+    
+    if (!this.timeForm.valid) {
+
+      if (hourControl.errors && hourControl.errors.max) hourControl.setValue(hourControl.errors.max.max);
+      if (hourControl.errors && hourControl.errors.min) hourControl.setValue(hourControl.errors.min.min);
+      if (hourControl.errors && hourControl.errors.pattern) hourControl.setValue('00');
+
+      if (minuteControl.errors && minuteControl.errors.max) minuteControl.setValue(minuteControl.errors.max.max);
+      if (minuteControl.errors && minuteControl.errors.min) minuteControl.setValue(minuteControl.errors.min.min);
+      if (minuteControl.errors && minuteControl.errors.pattern) minuteControl.setValue('00');
+
+      const correctedTime: CurrentTime = {
+        hour: parseInt(hourControl.value),
+        minute: parseInt(minuteControl.value),
+      }
+      this.changeTime(correctedTime);
+    }
+  }
+
+  changeTime(newTime: Partial<CurrentTime>): void {
     this.clockService.changeTime(newTime);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.currentTime$.unsubscribe();
   }
 
