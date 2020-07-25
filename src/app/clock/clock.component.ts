@@ -27,7 +27,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   public hour: string;
   public minute: string;
   private timeFlow: any;
-  public noEditMode: boolean;
+  public noEditMode = true;
 
   constructor(
     private renderer: Renderer2,
@@ -35,7 +35,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-this.noEditMode = true;
+
     this.initTime = {
       hour: 22,
       minute: 0,
@@ -59,9 +59,6 @@ this.noEditMode = true;
 
     this.timeFlow = this.startTimeFlow();
 
-    // setTimeout(() => {
-    //   clearInterval(this.inter)
-    // }, 5000);
   }
 
   setClockMarkers(): void {
@@ -87,6 +84,9 @@ this.noEditMode = true;
   }
 
   startTimeFlow() {
+    if(this.timeFlow){
+      clearInterval(this.timeFlow);
+    }
     let s = 0;
     let m = parseInt(this.minute);
     let h = parseInt(this.hour);
@@ -136,7 +136,7 @@ this.noEditMode = true;
     this.minute = minute;
   }
 
-  updateDialClock(newHour: number, newMinute: number, newSeconds: number) {
+  updateDialClock(newHour: number, newMinute: number, newSeconds: number):void {
     const smHandAngle = newHour * 30 + newMinute * 0.5 + newSeconds * 0.01;
     const lgHandAngle = newMinute * 6 + newSeconds * 0.1;
     this.renderer.setStyle(this.smHand.nativeElement, 'transform', `rotateZ(${smHandAngle}deg)`)
@@ -145,6 +145,18 @@ this.noEditMode = true;
 
   changeTime(newTime: Partial<CurrentTime>): void {
     this.clockService.changeTime(newTime);
+  }
+
+  toggleEditMode(){
+    
+    if(this.noEditMode){
+      
+        clearInterval(this.timeFlow);
+      
+    }else{
+      this.timeFlow = this.startTimeFlow();
+    }
+    this.noEditMode = !this.noEditMode;
   }
 
   ngOnDestroy(): void {

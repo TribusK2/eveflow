@@ -6,11 +6,12 @@
     <div class="clock-dial__center"></div>
     <div class="clock-dial__lg-hand" #lgHand></div>
     <div class="clock-dial__sm-hand" #smHand></div>
+    <button class="clock-dial__btn" (click)="toggleEditMode()"></button>
   </div>
 
   <div class="clock-digital">
     <div class="clock-digital__display">
-      <input class="clock-digital__input clock-digital__input--hours" type="text" (input)="onInputChange($event, 'hour')"
+      <input class="clock-digital__input" type="text" (input)="onInputChange($event, 'hour')"
         [value]="hour" [readonly]="noEditMode" [ngClass]="{'readonly-input': noEditMode}">
     </div>
     <div class="clock-digital__separator">
@@ -18,7 +19,7 @@
       <div class="clock-digital__dot"></div>
     </div>
     <div class="clock-digital__display">
-      <input class="clock-digital__input clock-digital__input--minutes" type="text"
+      <input class="clock-digital__input" type="text"
         (input)="onInputChange($event, 'minute')" [value]="minute" [readonly]="noEditMode" [ngClass]="{'readonly-input': noEditMode}">
     </div>
   </div>

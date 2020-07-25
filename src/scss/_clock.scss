@@ -1,5 +1,6 @@
 .clocks {
   position: absolute;
+  right: 0;
 }
 
 .clock-dial {
@@ -45,6 +46,29 @@
     transform-origin: bottom;
   }
 
+  &__btn{
+    position: absolute;
+    width: $clock-dial-size*0.15;
+    height: $clock-dial-size*0.3;
+    left: calc(-#{$clock-dial-frame} - #{$clock-dial-size}*0.15);
+    min-width: 0;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    border-radius: 15px 0px 0px 15px;;
+    background-color: $clock-dial-main-color;
+
+    &:focus{
+      outline: none;
+    }
+
+    &:active,
+    &:hover{
+      background-color: #0000006e;
+    }
+
+  }
+
 }
 
 .clock-digital {
@@ -64,34 +88,28 @@
   }
 
   &__input{
-    width: 80%;
+    width: 82.5%;
     height: 80%;
-    border: none;
+    border: 1px solid gray;
     font-size: 16vh;
     text-align: center;
-    color: $clock-digital-main-color;
+    color: #c4000050;
 
     &::placeholder{
       color: $clock-digital-main-color;
     }
 
-    &--hours{
-      text-align: end;
-    }
-
-    &--minutes{
-      text-align: start;
-    }
-
     &.readonly-input{
       outline: none;
       cursor: default;
+      border: none;
+      color: $clock-digital-main-color;
     }
   }
 
   &__separator{
     @include center-items;
-    width: 10%;
+    width: 5%;
     flex-direction: column;
   }
 
