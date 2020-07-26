@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, OnDestroy } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
-import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import * as moment from 'moment';
 
 import { ClockService } from './clock.service';
 import { CurrentTime } from './models/current-time.model';
@@ -29,6 +30,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   private timeFlow: any;
   public noEditMode = true;
   public clockForm:FormGroup;
+  private timeSpeed: number;
 
   constructor(
     private renderer: Renderer2,
@@ -45,10 +47,11 @@ export class ClockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.initTime = {
-      hour: 22,
-      minute: 0,
-      second: 0
+      hour: parseInt(moment().format('H')) ,
+      minute: parseInt(moment().format('mm')),
+      second: parseInt(moment().format('ss'))
     }
+    this.timeSpeed = 1000; // 1000 = 1 s/s
 
     this.setClockMarkers();
 
@@ -116,7 +119,7 @@ export class ClockComponent implements OnInit, OnDestroy {
       }
       this.changeTime({ second: s })
       s++
-    }, 10)
+    }, this.timeSpeed)
   }
 
   onInputChange(event: any, item: string) {
