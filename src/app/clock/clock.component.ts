@@ -26,8 +26,6 @@ export class ClockComponent implements OnInit, OnDestroy {
   public markers: Marker[] = [];
   private initTime: CurrentTime;
   private currentTime$: Subscription;
-  // public hour: number | string;
-  // public minute: number | string;
   private timeFlow: any;
   public noEditMode = true;
   public clockForm:FormGroup;
@@ -39,7 +37,8 @@ export class ClockComponent implements OnInit, OnDestroy {
   ) {
     this.clockForm = this._formBuilder.group({
       hourControl: ['', [Validators.min(0), Validators.max(23)]],
-      minuteControl: ['', [Validators.min(0), Validators.max(59)]]
+      minuteControl: ['', [Validators.min(0), Validators.max(59)]],
+      secondControl: ['', [Validators.min(0), Validators.max(59)]]
     })
    }
 
@@ -60,7 +59,7 @@ export class ClockComponent implements OnInit, OnDestroy {
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
 
       this.updateDialClock(res.hour, res.minute, res.second);
-      this.updateDigitalClock(res.hour, res.minute);
+      this.updateDigitalClock(res.hour, res.minute, res.second);
 
     })
 
@@ -96,7 +95,7 @@ export class ClockComponent implements OnInit, OnDestroy {
     if (this.timeFlow) {
       clearInterval(this.timeFlow);
     }
-    let s = 0;
+    let s = this.clockForm.get('secondControl').value;;
     let m = this.clockForm.get('minuteControl').value;
     let h = this.clockForm.get('hourControl').value;
     return setInterval(() => {
@@ -121,7 +120,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   }
 
   onInputChange(event: any, item: string) {
-    // let value = parseInt(event.target.value);
+
     let value = event.target.value;
     if (isNaN(value)) value = 0;
     if (item === 'hour') {
@@ -137,7 +136,7 @@ export class ClockComponent implements OnInit, OnDestroy {
 
   }
 
-  updateDigitalClock(newHour: number | string, newMinute: number | string): void {
+  updateDigitalClock(newHour: number | string, newMinute: number | string, newSecond: number): void {
 
     newHour < 10 ? newHour = `0${newHour.toString()}` : newHour = newHour;
     if(typeof newHour === 'string' && newHour.length > 2)newHour = newHour.slice(-2)
@@ -147,6 +146,7 @@ export class ClockComponent implements OnInit, OnDestroy {
 
     this.clockForm.get('hourControl').setValue(newHour);
     this.clockForm.get('minuteControl').setValue(newMinute);
+    this.clockForm.get('secondControl').setValue(newSecond);
   }
 
   updateDialClock(newHour: number, newMinute: number, newSecond: number): void {
@@ -157,7 +157,6 @@ export class ClockComponent implements OnInit, OnDestroy {
   }
 
   changeTime(newTime: Partial<CurrentTime>): void {
-    console.log(newTime)
     this.clockService.changeTime(newTime);
   }
 
