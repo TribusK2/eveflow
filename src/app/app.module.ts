@@ -4,11 +4,13 @@ import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
+import { SkyComponent } from './sky/sky.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClockComponent
+    ClockComponent,
+    SkyComponent
   ],
   imports: [
     BrowserModule,

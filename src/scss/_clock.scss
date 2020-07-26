@@ -91,9 +91,10 @@
     width: 82.5%;
     height: 80%;
     border: 1px solid gray;
-    font-size: 16vh;
+    font-size: $clock-dial-size/3.75;
     text-align: center;
     color: #c4000050;
+    background-color: transparent;
 
     &::placeholder{
       color: $clock-digital-main-color;
