@@ -1,7 +1,9 @@
 export interface GradientColor {
     colorName: string;
-    startSecond: number;
-    endSecond: number;
+    startSecond?: number;
+    endSecond?: number;
+    startTime: string;
+    endTime: string;
     topRGBA: {
         r: number;
         g: number;
