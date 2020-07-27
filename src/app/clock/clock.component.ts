@@ -3,7 +3,7 @@ import { Subscription, Observable } from 'rxjs';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 
-import { ClockService } from './clock.service';
+import { TimeService } from '../shared/services/time.service';
 import { CurrentTime } from './models/current-time.model';
 
 declare interface Marker {
@@ -35,7 +35,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   constructor(
     private renderer: Renderer2,
     private _formBuilder: FormBuilder,
-    private clockService: ClockService
+    private timeService: TimeService
   ) {
     this.clockForm = this._formBuilder.group({
       hourControl: ['', [Validators.min(0), Validators.max(23)]],
@@ -87,7 +87,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   }
 
   getCurrentTime(): Observable<CurrentTime> {
-    return this.clockService.getCurrentTime();
+    return this.timeService.getCurrentTime();
   }
 
   setInitTime(initTime: CurrentTime): void {
@@ -160,7 +160,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   }
 
   changeTime(newTime: Partial<CurrentTime>): void {
-    this.clockService.changeTime(newTime);
+    this.timeService.changeTime(newTime);
   }
 
   toggleEditMode() {

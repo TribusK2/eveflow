@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { CurrentTime } from './models/current-time.model';
+import { CurrentTime } from 'src/app/clock/models/current-time.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClockService {
+export class TimeService {
 
   private currentTime = new BehaviorSubject<CurrentTime>({ hour: 0, minute: 0, second: 0 })
   public currentTime$ = this.currentTime.asObservable();
