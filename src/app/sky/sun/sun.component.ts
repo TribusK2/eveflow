@@ -3,6 +3,9 @@ import { Observable, Subscription } from 'rxjs';
 
 import { CurrentTime } from 'src/app/clock/models/current-time.model';
 import { TimeService } from 'src/app/shared/services/time.service';
+import * as sunColorsList from '../../shared/json/sun-colors.json'
+import { SunColor } from 'src/app/shared/models/sun-color.model';
+import { ColorsService } from 'src/app/shared/services/colors.service';
 
 @Component({
   selector: 'app-sun',
@@ -12,33 +15,67 @@ import { TimeService } from 'src/app/shared/services/time.service';
 export class SunComponent implements OnInit, OnDestroy {
 
   private currentTime$: Subscription;
-  public sunPosition: { 'left': string, 'top': string };
+  public sunStyles = { 'left': "", 'top': "", 'background-color': "", 'box-shadow': "" };
+  public sunShineStyles = { 'box-shadow': "" };
+  public sunShineWideStyles = { 'box-shadow': "" };
   private initDisplacementTime: string;
   private initDisplacement: number;
   private circleRadius: number;
+  private sunColors: SunColor[];
 
   constructor(
-    private timeService: TimeService
+    private timeService: TimeService,
+    private colorsService: ColorsService
   ) { }
 
   ngOnInit(): void {
+    this.sunColors = sunColorsList.sunColors;
     this.initDisplacementTime = "01:00";
     this.circleRadius = 40 // % of paret Node
 
-
     // Calculate initial displacement time (for more realistic felling)
-    this.initDisplacement = this.claculateInitDisplacement(this.initDisplacementTime);
+    this.initDisplacement = this.claculateAngle(this.initDisplacementTime);
+
+    this.calculateStampAngles(this.sunColors);
 
     // Get current time
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
 
-      // Calculate current second
-      const sunAngle = ((res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * (Math.PI / 180) / 2 + 6 / (12 / Math.PI) + this.initDisplacement);
+      const sunAngle = ((res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * (Math.PI / 180) / 2 + 6 / (12 / Math.PI) - this.initDisplacement);
 
-      const xPos = (Math.cos(sunAngle)) * this.circleRadius;
-      const yPos = (Math.sin(sunAngle)) * this.circleRadius;
+      this.setSunPosition(sunAngle);
 
-      this.sunPosition = { 'left': `${xPos}%`, 'top': `${yPos}%` }
+      if (sunAngle < this.sunColors[0].endAngle) {
+        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[0], this.sunColors[1], sunAngle);
+        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[0], this.sunColors[1], sunAngle);
+        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[0], this.sunColors[1], sunAngle);
+        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[0], this.sunColors[1], sunAngle);
+      }
+      if (sunAngle >= this.sunColors[1].startAngle && sunAngle < this.sunColors[1].endAngle) {
+        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[1], this.sunColors[2], sunAngle);
+        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[1], this.sunColors[2], sunAngle);
+        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[1], this.sunColors[2], sunAngle);
+        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[1], this.sunColors[2], sunAngle);
+      }
+      if (sunAngle >= this.sunColors[2].startAngle && sunAngle < this.sunColors[2].endAngle) {
+        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[2], this.sunColors[3], sunAngle);
+        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[2], this.sunColors[3], sunAngle);
+        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[2], this.sunColors[3], sunAngle);
+        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[2], this.sunColors[3], sunAngle);
+      }
+      if (sunAngle >= this.sunColors[3].startAngle && sunAngle < this.sunColors[3].endAngle) {
+        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[3], this.sunColors[4], sunAngle);
+        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[3], this.sunColors[4], sunAngle);
+        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[3], this.sunColors[4], sunAngle);
+        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[3], this.sunColors[4], sunAngle);
+      }
+      if (sunAngle >= this.sunColors[4].startAngle && sunAngle < this.sunColors[4].endAngle) {
+        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[4], this.sunColors[0], sunAngle);
+        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[4], this.sunColors[0], sunAngle);
+        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[4], this.sunColors[0], sunAngle);
+        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[4], this.sunColors[0], sunAngle);
+      }
+
     });
   }
 
@@ -50,10 +87,49 @@ export class SunComponent implements OnInit, OnDestroy {
     return this.timeService.getCurrentTime();
   }
 
-  claculateInitDisplacement(time: string): number {
+  /**
+   * Calculate static angle of sun position
+   * @param  {string} time
+   * @returns number
+   */
+  claculateAngle(time: string): number {
     let timeArray = time.split(':');
-    let initDisplacement = (parseInt(timeArray[0]) + parseInt(timeArray[1]) / 60) / (-12 / Math.PI);
+    let initDisplacement = (parseInt(timeArray[0]) + parseInt(timeArray[1]) / 60) / (12 / Math.PI);
     return initDisplacement;
+  }
+
+  /**
+   * Set sun position on the view depend on current time
+   * @param  {CurrentTime} time
+   * @returns void
+   */
+  setSunPosition(sunAngle: number): void {
+
+    const xPos = (Math.cos(sunAngle)) * this.circleRadius;
+    const yPos = (Math.sin(sunAngle)) * this.circleRadius;
+
+    this.sunStyles.left = `${xPos}%`;
+    this.sunStyles.top = `${yPos}%`;
+  }
+
+  // setSunColors(startColor: SunColor, endColor: SunColor, sunAngle: number) {
+    
+  //   const firstR = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.R, endColor.sunColor.R, sunAngle);
+  //   const firstG = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.G, endColor.sunColor.G, sunAngle);
+  //   const firstB = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.B, endColor.sunColor.B, sunAngle);
+  //   const firstA = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.A, endColor.sunColor.A, sunAngle);
+
+  //   return this.sunStyles["background-color"] = `rgba(${firstR}, ${firstG}, ${firstB}, ${firstA})`;
+  // }
+
+  calculateStampAngles(colors: SunColor[]): void {
+    for (const color of colors) {
+      const startAngle = this.claculateAngle(color.startTime);
+      color.startAngle = startAngle+ 6 / (12 / Math.PI) - this.initDisplacement;
+
+      const endAngle = this.claculateAngle(color.endTime);
+      color.endAngle = endAngle+ 6 / (12 / Math.PI) - this.initDisplacement;
+    }
   }
 
   ngOnDestroy() {

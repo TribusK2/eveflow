@@ -15,22 +15,19 @@
     height: $sun-size;
     width: $sun-size;
     border-radius: $sun-size/2;
-    background-color: $sun-color;
     position: relative;
-    box-shadow: 0 0 30px 30px $sun-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &__shine {
-      height: 100%;
-      width: 100%;
-      box-shadow: 0 0 60px 60px $sun-shadow-color;
-      background-color: $sun-shadow-color;
+      width: 0;
+      height: 0;
       border-radius: $sun-size/2;
 
       &--wide {
-        height: 100%;
-        width: 100%;
-        box-shadow: 0 0 120px 120px $sun-shadow-wide-color;
-        background-color: $sun-shadow-wide-color;
+        width: 0;
+        height: 0;
         border-radius: $sun-size/2;
       }
     }
