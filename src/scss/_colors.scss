@@ -1,5 +1,6 @@
 $clock-dial-main-color: #ffffff50;
 $clock-digital-main-color: $clock-dial-main-color;
 
-$sun-color: #ffffa4;
-$sun-shadow-color: #ffffffb9;
+$sun-color: rgb(255, 255, 255);
+$sun-shadow-color: rgba(255, 255, 200, 0.3);
+$sun-shadow-wide-color: rgba(255, 255, 155, 0.3);

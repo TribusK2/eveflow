@@ -19,12 +19,20 @@
     position: relative;
     box-shadow: 0 0 30px 30px $sun-color;
 
-    &::after {
-      height: $sun-size;
-      width: $sun-size;
-      content: '';
+    &__shine {
+      height: 100%;
+      width: 100%;
       box-shadow: 0 0 60px 60px $sun-shadow-color;
+      background-color: $sun-shadow-color;
       border-radius: $sun-size/2;
+
+      &--wide {
+        height: 100%;
+        width: 100%;
+        box-shadow: 0 0 120px 120px $sun-shadow-wide-color;
+        background-color: $sun-shadow-wide-color;
+        border-radius: $sun-size/2;
+      }
     }
   }
 }

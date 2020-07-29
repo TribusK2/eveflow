@@ -51,7 +51,7 @@ export class ClockComponent implements OnInit, OnDestroy {
       minute: parseInt(moment().format('mm')),
       second: parseInt(moment().format('ss'))
     }
-    this.timeSpeed = 1; // 1000 = 1 s/s
+    this.timeSpeed = 1000; // 1000 = 1 s/s
 
     this.setClockMarkers();
 
