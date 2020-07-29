@@ -18,52 +18,61 @@ export class SkyComponent implements OnInit, OnDestroy {
 
   private currentTime$: Subscription;
   private bgColors: GradientColor[]
-  
-  public bgColor: {'background-image': string};
+
+  public bgColor: { 'background-image': string };
 
   constructor(
     private timeService: TimeService,
     private colorsService: ColorsService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.bgColors = bgColorList.bgColors;
 
-    this.calculateAllStampSeconds(this.bgColors);
+    // Calculate colors seconds values
+    this.calculateStampSeconds(this.bgColors);
 
+    // Get current time
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
 
-      const secondsAmount = (res.hour * 30 + res.minute * 0.5 + res.second * 0.01)*120;
+      // Calculate current second
+      const secondsAmount = (res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * 120;
 
-      if(secondsAmount < this.bgColors[0].endSecond){
+      // Set colors of sky background for current second
+      if (secondsAmount < this.bgColors[0].endSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[0], this.bgColors[1], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[1].startSecond && secondsAmount < this.bgColors[1].endSecond){
+      if (secondsAmount >= this.bgColors[1].startSecond && secondsAmount < this.bgColors[1].endSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[1], this.bgColors[2], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[2].startSecond && secondsAmount < this.bgColors[2].endSecond){
+      if (secondsAmount >= this.bgColors[2].startSecond && secondsAmount < this.bgColors[2].endSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[2], this.bgColors[3], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[3].startSecond){
+      if (secondsAmount >= this.bgColors[3].startSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[3], this.bgColors[4], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[4].startSecond){
+      if (secondsAmount >= this.bgColors[4].startSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[4], this.bgColors[5], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[5].startSecond){
+      if (secondsAmount >= this.bgColors[5].startSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[5], this.bgColors[6], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[6].startSecond){
+      if (secondsAmount >= this.bgColors[6].startSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[6], this.bgColors[7], secondsAmount);
       }
-      if(secondsAmount >= this.bgColors[7].startSecond){
+      if (secondsAmount >= this.bgColors[7].startSecond) {
         this.bgColor = this.colorsService.setColorGradient(this.bgColors[7], this.bgColors[0], secondsAmount);
       }
 
     })
   }
 
-  calculateAllStampSeconds(colors: GradientColor[]){
+  /**
+   * Calculate seconds values for given gradient color
+   * @param  {GradientColor[]} colors
+   * @returns void
+   */
+  calculateStampSeconds(colors: GradientColor[]): void {
     for (const color of colors) {
       const startSecond = this.secondCalculate(color.startTime);
       color.startSecond = startSecond;
@@ -73,15 +82,23 @@ export class SkyComponent implements OnInit, OnDestroy {
     }
   }
 
-  secondCalculate(time: string){
-    return this.colorsService.secondCalculate(time);
+  /** Calculate second of cycle from given time
+   * @param  {string} time
+   * @returns number
+   */
+  secondCalculate(time: string): number {
+    return this.timeService.secondCalculate(time);
   }
 
+  /**
+   * Get current time parameters
+   * @returns Observable
+   */
   getCurrentTime(): Observable<CurrentTime> {
     return this.timeService.getCurrentTime();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.currentTime$.unsubscribe();
   }
 

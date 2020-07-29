@@ -16,5 +16,4 @@ export interface GradientColor {
         b: number;
         a: number;
     }
-
 }
