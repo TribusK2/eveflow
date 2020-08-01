@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { CurrentTime } from 'src/app/clock/models/current-time.model';
 
@@ -30,7 +31,14 @@ export class TimeService {
    * @returns Observable
    */
   getCurrentTime(): Observable<CurrentTime> {
-    return this.currentTime$;
+    return this.currentTime$.pipe(
+      map(res => {
+        const hour = typeof res.hour === 'string' ? parseInt(res.hour) : res.hour;
+        const minute = typeof res.minute === 'string' ? parseInt(res.minute) : res.minute;
+        const second = typeof res.second === 'string' ? parseInt(res.second) : res.second;
+        return {hour: hour, minute: minute, second:second}
+      })
+    );
   }
 
   /**
@@ -47,9 +55,9 @@ export class TimeService {
    * @param  {string} time
    * @returns number
    */
-  secondCalculate(time: string): number{
+  secondCalculate(time: string): number {
     let timeArray = time.split(':');
-    let seconds = (parseInt(timeArray[0]) * 30 + parseInt(timeArray[1]) * 0.5)*120;
+    let seconds = (parseInt(timeArray[0]) * 30 + parseInt(timeArray[1]) * 0.5) * 120;
     return seconds;
   }
 

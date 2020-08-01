@@ -41,7 +41,7 @@ export class SunComponent implements OnInit, OnDestroy {
     // Get current time
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
 
-      const sunAngle = ((res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * (Math.PI / 180) / 2 + 6 / (12 / Math.PI) - this.initDisplacement);
+      const sunAngle = (((res.hour + res.minute / 60 + res.second / 3600)*30) * (Math.PI / 180) / 2 + 6 / (12 / Math.PI) - this.initDisplacement);
 
       this.setSunPosition(sunAngle);
       this.setSunColors(sunAngle);

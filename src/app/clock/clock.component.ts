@@ -103,24 +103,24 @@ export class ClockComponent implements OnInit, OnDestroy {
     let s = this.clockForm.get('secondControl').value;;
     let m = this.clockForm.get('minuteControl').value;
     let h = this.clockForm.get('hourControl').value;
+    if(typeof s === 'string') s = parseInt(s);
+    if(typeof m === 'string') m = parseInt(m);
+    if(typeof h === 'string') h = parseInt(h);
+
     return setInterval(() => {
-      if (h > 23) {
-        h = 0; m = 0; s = 0;
-        this.changeTime({ hour: h, minute: m, second: s });
-        return
+
+      s = s + this.timeSpeed;
+      if (s > 59) {
+        m++; s = 0;
       }
       if (m > 59) {
         h++; m = 0; s = 0;
-        this.changeTime({ hour: h, minute: m, second: s });
-        return
       }
-      if (s > 59) {
-        m++; s = 0;
-        this.changeTime({ minute: m, second: s });
-        return
+      if (h > 23) {
+        h = 0; m = 0; s = 0;
       }
-      this.changeTime({ second: s })
-      s = s + this.timeSpeed;
+      this.changeTime({ hour: h, minute: m, second: s });
+
     }, this.timeInterval)
   }
 

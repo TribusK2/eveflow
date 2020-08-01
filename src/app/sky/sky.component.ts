@@ -36,7 +36,7 @@ export class SkyComponent implements OnInit, OnDestroy {
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
 
       // Calculate current second
-      const secondsAmount = (res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * 120;
+      const secondsAmount = ((res.hour + res.minute / 60 + res.second / 3600)*30) * 120;
 
       // Set colors of sky background for current second
       this.bgColor = this.setGradientColors(secondsAmount);
