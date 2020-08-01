@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { GradientColor } from '../models/gradient-color.model';
 import { MathService } from './math.service';
-import { TimeService } from './time.service';
 import { SunColor } from '../models/sun-color.model';
 
 @Injectable({
@@ -11,7 +10,6 @@ import { SunColor } from '../models/sun-color.model';
 export class ColorsService {
 
   constructor(
-    private timeService: TimeService,
     private mathService: MathService,
     ) { }
 
@@ -37,7 +35,14 @@ export class ColorsService {
     return { 'background-image': `linear-gradient(rgba(${firstR}, ${firstG}, ${firstB}, ${firstA}), rgba(${secondR}, ${secondG}, ${secondB}, ${secondA}))` }
   }
 
-  setSunColors(startColor: SunColor, endColor: SunColor, sunAngle: number) {
+  /**
+   * Set up main colors of the
+   * @param  {SunColor} startColor
+   * @param  {SunColor} endColor
+   * @param  {number} sunAngle
+   * @returns string
+   */
+  setSunColors(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
     
     const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.R, endColor.sunColor.R, sunAngle);
     const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.G, endColor.sunColor.G, sunAngle);
@@ -47,7 +52,14 @@ export class ColorsService {
     return `rgba(${R}, ${G}, ${B}, ${A})`;
   }
 
-  setSunShadow(startColor: SunColor, endColor: SunColor, sunAngle: number) {
+  /**
+   * Setup CSS shadow of the sun
+   * @param  {SunColor} startColor
+   * @param  {SunColor} endColor
+   * @param  {number} sunAngle
+   * @returns string
+   */
+  setSunShadow(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
     
     const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.R, endColor.sunColor.R, sunAngle);
     const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.G, endColor.sunColor.G, sunAngle);
@@ -58,7 +70,14 @@ export class ColorsService {
     return `0 0 ${size}px ${size}px rgba(${R}, ${G}, ${B}, ${A})`;
   }
 
-  setSunShineShadow(startColor: SunColor, endColor: SunColor, sunAngle: number) {
+  /**
+   * Setup small shine of the sun
+   * @param  {SunColor} startColor
+   * @param  {SunColor} endColor
+   * @param  {number} sunAngle
+   * @returns string
+   */
+  setSunShineShadow(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
     
     const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineColor.R, endColor.sunShineColor.R, sunAngle);
     const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineColor.G, endColor.sunShineColor.G, sunAngle);
@@ -69,7 +88,14 @@ export class ColorsService {
     return `0 0 ${size}px ${size}px rgba(${R}, ${G}, ${B}, ${A})`;
   }
 
-  setSunShineWideShadow(startColor: SunColor, endColor: SunColor, sunAngle: number) {
+  /**
+   * Setup large shine of the sun
+   * @param  {SunColor} startColor
+   * @param  {SunColor} endColor
+   * @param  {number} sunAngle
+   * @returns string
+   */
+  setSunShineWideShadow(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
     
     const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineWideColor.R, endColor.sunShineWideColor.R, sunAngle);
     const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineWideColor.G, endColor.sunShineWideColor.G, sunAngle);

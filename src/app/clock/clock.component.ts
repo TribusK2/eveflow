@@ -30,6 +30,7 @@ export class ClockComponent implements OnInit, OnDestroy {
   private timeFlow: any;
   public noEditMode = true;
   public clockForm:FormGroup;
+  private timeInterval: number;
   private timeSpeed: number;
 
   constructor(
@@ -51,7 +52,8 @@ export class ClockComponent implements OnInit, OnDestroy {
       minute: parseInt(moment().format('mm')),
       second: parseInt(moment().format('ss'))
     }
-    this.timeSpeed = 1; // 1000 = 1 s/s
+    this.timeInterval = 2000;   // 1000 = 1 s
+    this.timeSpeed = 10         // s / timeInterval
 
     this.setClockMarkers();
 
@@ -118,8 +120,8 @@ export class ClockComponent implements OnInit, OnDestroy {
         return
       }
       this.changeTime({ second: s })
-      s++
-    }, this.timeSpeed)
+      s = s + this.timeSpeed;
+    }, this.timeInterval)
   }
 
   onInputChange(event: any, item: string) {

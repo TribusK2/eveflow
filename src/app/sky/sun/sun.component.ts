@@ -44,39 +44,25 @@ export class SunComponent implements OnInit, OnDestroy {
       const sunAngle = ((res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * (Math.PI / 180) / 2 + 6 / (12 / Math.PI) - this.initDisplacement);
 
       this.setSunPosition(sunAngle);
-
-      if (sunAngle < this.sunColors[0].endAngle) {
-        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[0], this.sunColors[1], sunAngle);
-        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[0], this.sunColors[1], sunAngle);
-        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[0], this.sunColors[1], sunAngle);
-        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[0], this.sunColors[1], sunAngle);
-      }
-      if (sunAngle >= this.sunColors[1].startAngle && sunAngle < this.sunColors[1].endAngle) {
-        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[1], this.sunColors[2], sunAngle);
-        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[1], this.sunColors[2], sunAngle);
-        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[1], this.sunColors[2], sunAngle);
-        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[1], this.sunColors[2], sunAngle);
-      }
-      if (sunAngle >= this.sunColors[2].startAngle && sunAngle < this.sunColors[2].endAngle) {
-        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[2], this.sunColors[3], sunAngle);
-        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[2], this.sunColors[3], sunAngle);
-        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[2], this.sunColors[3], sunAngle);
-        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[2], this.sunColors[3], sunAngle);
-      }
-      if (sunAngle >= this.sunColors[3].startAngle && sunAngle < this.sunColors[3].endAngle) {
-        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[3], this.sunColors[4], sunAngle);
-        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[3], this.sunColors[4], sunAngle);
-        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[3], this.sunColors[4], sunAngle);
-        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[3], this.sunColors[4], sunAngle);
-      }
-      if (sunAngle >= this.sunColors[4].startAngle && sunAngle < this.sunColors[4].endAngle) {
-        this.sunStyles["background-color"] = this.colorsService.setSunColors(this.sunColors[4], this.sunColors[0], sunAngle);
-        this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(this.sunColors[4], this.sunColors[0], sunAngle);
-        this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(this.sunColors[4], this.sunColors[0], sunAngle);
-        this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(this.sunColors[4], this.sunColors[0], sunAngle);
-      }
+      this.setSunColors(sunAngle);
 
     });
+  }
+
+  /**
+   * Setup sun colors
+   * @param  {number} sunAngle
+   * @returns void
+   */
+  setSunColors(sunAngle: number): void {
+    let cutoffColors = this.sunColors.filter(color => sunAngle <= color.endAngle).slice(0, 2);
+    if (cutoffColors.length < 2) cutoffColors.push(this.sunColors[0]);
+
+    this.sunStyles["background-color"] = this.colorsService.setSunColors(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(cutoffColors[0], cutoffColors[1], sunAngle);
+
   }
 
   /**
@@ -112,23 +98,18 @@ export class SunComponent implements OnInit, OnDestroy {
     this.sunStyles.top = `${yPos}%`;
   }
 
-  // setSunColors(startColor: SunColor, endColor: SunColor, sunAngle: number) {
-    
-  //   const firstR = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.R, endColor.sunColor.R, sunAngle);
-  //   const firstG = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.G, endColor.sunColor.G, sunAngle);
-  //   const firstB = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.B, endColor.sunColor.B, sunAngle);
-  //   const firstA = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.A, endColor.sunColor.A, sunAngle);
-
-  //   return this.sunStyles["background-color"] = `rgba(${firstR}, ${firstG}, ${firstB}, ${firstA})`;
-  // }
-
+  /**
+   * Calculate angle values for given sun colors
+   * @param  {SunColor[]} colors
+   * @returns void
+   */
   calculateStampAngles(colors: SunColor[]): void {
     for (const color of colors) {
       const startAngle = this.claculateAngle(color.startTime);
-      color.startAngle = startAngle+ 6 / (12 / Math.PI) - this.initDisplacement;
+      color.startAngle = startAngle + 6 / (12 / Math.PI) - this.initDisplacement;
 
       const endAngle = this.claculateAngle(color.endTime);
-      color.endAngle = endAngle+ 6 / (12 / Math.PI) - this.initDisplacement;
+      color.endAngle = endAngle + 6 / (12 / Math.PI) - this.initDisplacement;
     }
   }
 

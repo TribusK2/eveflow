@@ -18,7 +18,6 @@ export class SkyComponent implements OnInit, OnDestroy {
 
   private currentTime$: Subscription;
   private bgColors: GradientColor[]
-
   public bgColor: { 'background-image': string };
 
   constructor(
@@ -27,6 +26,7 @@ export class SkyComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    // Asign colors
     this.bgColors = bgColorList.bgColors;
 
     // Calculate colors seconds values
@@ -39,36 +39,25 @@ export class SkyComponent implements OnInit, OnDestroy {
       const secondsAmount = (res.hour * 30 + res.minute * 0.5 + res.second * 0.01) * 120;
 
       // Set colors of sky background for current second
-      if (secondsAmount < this.bgColors[0].endSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[0], this.bgColors[1], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[1].startSecond && secondsAmount < this.bgColors[1].endSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[1], this.bgColors[2], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[2].startSecond && secondsAmount < this.bgColors[2].endSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[2], this.bgColors[3], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[3].startSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[3], this.bgColors[4], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[4].startSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[4], this.bgColors[5], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[5].startSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[5], this.bgColors[6], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[6].startSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[6], this.bgColors[7], secondsAmount);
-      }
-      if (secondsAmount >= this.bgColors[7].startSecond) {
-        this.bgColor = this.colorsService.setColorGradient(this.bgColors[7], this.bgColors[0], secondsAmount);
-      }
+      this.bgColor = this.setGradientColors(secondsAmount);
 
     })
   }
 
   /**
-   * Calculate seconds values for given gradient color
+   * Setup CSS background-image gradient
+   * @param  {number} secondsAmount
+   * @returns string
+   */
+  setGradientColors(secondsAmount: number): { 'background-image': string } {
+    let cutoffColors = this.bgColors.filter(color => secondsAmount <= color.endSecond).slice(0, 2);
+    if (cutoffColors.length < 2) cutoffColors.push(this.bgColors[0]);
+
+    return this.colorsService.setColorGradient(cutoffColors[0], cutoffColors[1], secondsAmount);
+  }
+
+  /**
+   * Calculate seconds values for given gradient colors
    * @param  {GradientColor[]} colors
    * @returns void
    */
