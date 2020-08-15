@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
 import { SkyComponent } from './sky/sky.component';
 import { SunComponent } from './sky/sun/sun.component';
+import { MoonComponent } from './sky/moon/moon.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClockComponent,
     SkyComponent,
-    SunComponent
+    SunComponent,
+    MoonComponent
   ],
   imports: [
     BrowserModule,
