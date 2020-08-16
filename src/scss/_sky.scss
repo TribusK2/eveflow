@@ -56,19 +56,16 @@
     background-repeat: no-repeat;
     background-size: cover;
     background-color: #ffffff;
-    top: -130px;
 
     &__shine {
       width: 0;
       height: 0;
       border-radius: $moon-size/2;
-      box-shadow: 0 0 60px 22px #adadad;
 
       &--wide {
         width: 0;
         height: 0;
         border-radius: $moon-size/2;
-        box-shadow: 0 0 200px 62px #bbbbbb;
       }
     }
   }

@@ -1,0 +1,119 @@
+{
+    "moonColors": [
+        {
+            "colorName": "Moon at Night",
+            "startTime": "00:00",
+            "endTime": "03:10",
+            "mainColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0
+            },
+            "shineColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0.7
+            },
+            "shineWideColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0.1
+            }
+        },
+        {
+            "colorName": "Moon Set",
+            "startTime": "03:10",
+            "endTime": "04:10",
+            "mainColor": {
+                "R": 255,
+                "G": 140,
+                "B": 0,
+                "A": 0.2
+            },
+            "shineColor": {
+                "R": 255,
+                "G": 140,
+                "B": 0,
+                "A": 0.5
+            },
+            "shineWideColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0.1
+            }
+        },
+        {
+            "colorName": "Moon Set End",
+            "startTime": "04:10",
+            "endTime": "15:50",
+            "mainColor": {
+                "R": 255,
+                "G": 35,
+                "B": 0,
+                "A": 0.5
+            },
+            "shineColor": {
+                "R": 255,
+                "G": 35,
+                "B": 0,
+                "A": 0.3
+            },
+            "shineWideColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0.1
+            }
+        },
+        {
+            "colorName": "Moon Rise",
+            "startTime": "15:50",
+            "endTime": "19:50",
+            "mainColor": {
+                "R": 236,
+                "G": 237,
+                "B": 223,
+                "A": 0.7
+            },
+            "shineColor": {
+                "R": 236,
+                "G": 237,
+                "B": 223,
+                "A": 0.6
+            },
+            "shineWideColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0.1
+            }
+        },
+        {
+            "colorName": "Moon Rise End",
+            "startTime": "19:50",
+            "endTime": "24:00",
+            "mainColor": {
+                "R": 195,
+                "G": 157,
+                "B": 120,
+                "A": 0.3
+            },
+            "shineColor": {
+                "R": 255,
+                "G": 233,
+                "B": 211,
+                "A": 0.7
+            },
+            "shineWideColor": {
+                "R": 255,
+                "G": 255,
+                "B": 255,
+                "A": 0.1
+            }
+        }
+    ]
+}

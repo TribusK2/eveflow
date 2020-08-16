@@ -4,8 +4,9 @@ import { Observable, Subscription } from 'rxjs';
 import { CurrentTime } from 'src/app/clock/models/current-time.model';
 import { TimeService } from 'src/app/shared/services/time.service';
 import * as sunColorsList from '../../shared/json/sun-colors.json'
-import { SunColor } from 'src/app/shared/models/sun-color.model';
+import { SkyObjectColor } from 'src/app/shared/models/sky-object-color.model';
 import { ColorsService } from 'src/app/shared/services/colors.service';
+import { MathService } from 'src/app/shared/services/math.service';
 
 @Component({
   selector: 'app-sun',
@@ -21,11 +22,12 @@ export class SunComponent implements OnInit, OnDestroy {
   private initDisplacementTime: string;
   private initDisplacement: number;
   private circleRadius: number;
-  private sunColors: SunColor[];
+  private sunColors: SkyObjectColor[];
 
   constructor(
     private timeService: TimeService,
-    private colorsService: ColorsService
+    private colorsService: ColorsService,
+    private mathService: MathService,
   ) { }
 
   ngOnInit(): void {
@@ -34,9 +36,9 @@ export class SunComponent implements OnInit, OnDestroy {
     this.circleRadius = 40 // % of paret Node
 
     // Calculate initial displacement time (for more realistic felling)
-    this.initDisplacement = this.claculateAngle(this.initDisplacementTime);
+    this.initDisplacement = this.mathService.claculateAngle(this.initDisplacementTime);
 
-    this.calculateStampAngles(this.sunColors);
+    this.mathService.calculateStampAngles(this.sunColors, this.initDisplacement);
 
     // Get current time
     this.currentTime$ = this.getCurrentTime().subscribe(res => {
@@ -58,30 +60,11 @@ export class SunComponent implements OnInit, OnDestroy {
     let cutoffColors = this.sunColors.filter(color => sunAngle <= color.endAngle).slice(0, 2);
     if (cutoffColors.length < 2) cutoffColors.push(this.sunColors[0]);
 
-    this.sunStyles["background-color"] = this.colorsService.setSunColors(cutoffColors[0], cutoffColors[1], sunAngle);
-    this.sunStyles["box-shadow"] = this.colorsService.setSunShadow(cutoffColors[0], cutoffColors[1], sunAngle);
-    this.sunShineStyles["box-shadow"] = this.colorsService.setSunShineShadow(cutoffColors[0], cutoffColors[1], sunAngle);
-    this.sunShineWideStyles["box-shadow"] = this.colorsService.setSunShineWideShadow(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunStyles["background-color"] = this.colorsService.setColors(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunStyles["box-shadow"] = this.colorsService.setShadow(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunShineStyles["box-shadow"] = this.colorsService.setShineShadow(cutoffColors[0], cutoffColors[1], sunAngle);
+    this.sunShineWideStyles["box-shadow"] = this.colorsService.setShineWideShadow(cutoffColors[0], cutoffColors[1], sunAngle);
 
-  }
-
-  /**
-   * Get current time parameters
-   * @returns Observable
-   */
-  getCurrentTime(): Observable<CurrentTime> {
-    return this.timeService.getCurrentTime();
-  }
-
-  /**
-   * Calculate static angle of sun position
-   * @param  {string} time
-   * @returns number
-   */
-  claculateAngle(time: string): number {
-    let timeArray = time.split(':');
-    let initDisplacement = (parseInt(timeArray[0]) + parseInt(timeArray[1]) / 60) / (12 / Math.PI);
-    return initDisplacement;
   }
 
   /**
@@ -99,18 +82,11 @@ export class SunComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Calculate angle values for given sun colors
-   * @param  {SunColor[]} colors
-   * @returns void
+   * Get current time parameters
+   * @returns Observable
    */
-  calculateStampAngles(colors: SunColor[]): void {
-    for (const color of colors) {
-      const startAngle = this.claculateAngle(color.startTime);
-      color.startAngle = startAngle + 6 / (12 / Math.PI) - this.initDisplacement;
-
-      const endAngle = this.claculateAngle(color.endTime);
-      color.endAngle = endAngle + 6 / (12 / Math.PI) - this.initDisplacement;
-    }
+  getCurrentTime(): Observable<CurrentTime> {
+    return this.timeService.getCurrentTime();
   }
 
   ngOnDestroy() {

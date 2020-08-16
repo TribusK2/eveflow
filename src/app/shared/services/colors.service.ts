@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { GradientColor } from '../models/gradient-color.model';
 import { MathService } from './math.service';
-import { SunColor } from '../models/sun-color.model';
+import { SkyObjectColor } from '../models/sky-object-color.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,70 +37,76 @@ export class ColorsService {
 
   /**
    * Set up main colors of the
-   * @param  {SunColor} startColor
-   * @param  {SunColor} endColor
-   * @param  {number} sunAngle
+   * @param  {SkyObjectColor} startColor
+   * @param  {SkyObjectColor} endColor
+   * @param  {number} angle
    * @returns string
    */
-  setSunColors(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
+  setColors(startColor: SkyObjectColor, endColor: SkyObjectColor, angle: number): string {
     
-    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.R, endColor.sunColor.R, sunAngle);
-    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.G, endColor.sunColor.G, sunAngle);
-    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.B, endColor.sunColor.B, sunAngle);
-    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.A, endColor.sunColor.A, sunAngle);
+    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.R, endColor.mainColor.R, angle);
+    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.G, endColor.mainColor.G, angle);
+    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.B, endColor.mainColor.B, angle);
+    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.A, endColor.mainColor.A, angle);
 
     return `rgba(${R}, ${G}, ${B}, ${A})`;
   }
 
   /**
-   * Setup CSS shadow of the sun
-   * @param  {SunColor} startColor
-   * @param  {SunColor} endColor
-   * @param  {number} sunAngle
+   * Setup CSS shadow of the sky object
+   * @param  {SkyObjectColor} startColor
+   * @param  {SkyObjectColor} endColor
+   * @param  {number} angle
    * @returns string
    */
-  setSunShadow(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
+  setShadow(startColor: SkyObjectColor, endColor: SkyObjectColor, angle: number): string {
     
-    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.R, endColor.sunColor.R, sunAngle);
-    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.G, endColor.sunColor.G, sunAngle);
-    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.B, endColor.sunColor.B, sunAngle);
-    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunColor.A, endColor.sunColor.A, sunAngle);
-    const size = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShadow, endColor.sunShadow, sunAngle);
-
+    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.R, endColor.mainColor.R, angle);
+    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.G, endColor.mainColor.G, angle);
+    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.B, endColor.mainColor.B, angle);
+    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.mainColor.A, endColor.mainColor.A, angle);
+    const size = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shadow, endColor.shadow, angle);
+      
     return `0 0 ${size}px ${size}px rgba(${R}, ${G}, ${B}, ${A})`;
+
   }
 
   /**
-   * Setup small shine of the sun
-   * @param  {SunColor} startColor
-   * @param  {SunColor} endColor
-   * @param  {number} sunAngle
+   * Setup small shine of the sky object
+   * @param  {SkyObjectColor} startColor
+   * @param  {SkyObjectColor} endColor
+   * @param  {number} angle
    * @returns string
    */
-  setSunShineShadow(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
+  setShineShadow(startColor: SkyObjectColor, endColor: SkyObjectColor, angle: number): string {
     
-    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineColor.R, endColor.sunShineColor.R, sunAngle);
-    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineColor.G, endColor.sunShineColor.G, sunAngle);
-    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineColor.B, endColor.sunShineColor.B, sunAngle);
-    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineColor.A, endColor.sunShineColor.A, sunAngle);
-    const size = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineShadow, endColor.sunShineShadow, sunAngle);
+    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineColor.R, endColor.shineColor.R, angle);
+    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineColor.G, endColor.shineColor.G, angle);
+    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineColor.B, endColor.shineColor.B, angle);
+    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineColor.A, endColor.shineColor.A, angle);
+    
+    if(startColor.shineShadow && endColor.shineShadow){
+      const size = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineShadow, endColor.shineShadow, angle);
+      return `0 0 ${size}px ${size}px rgba(${R}, ${G}, ${B}, ${A})`;
+    }else{
+      return `rgba(${R}, ${G}, ${B}, ${A})`;
+    }
 
-    return `0 0 ${size}px ${size}px rgba(${R}, ${G}, ${B}, ${A})`;
   }
 
   /**
-   * Setup large shine of the sun
-   * @param  {SunColor} startColor
-   * @param  {SunColor} endColor
-   * @param  {number} sunAngle
+   * Setup large shine of the sky object
+   * @param  {SkyObjectColor} startColor
+   * @param  {SkyObjectColor} endColor
+   * @param  {number} angle
    * @returns string
    */
-  setSunShineWideShadow(startColor: SunColor, endColor: SunColor, sunAngle: number): string {
+  setShineWideShadow(startColor: SkyObjectColor, endColor: SkyObjectColor, angle: number): string {
     
-    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineWideColor.R, endColor.sunShineWideColor.R, sunAngle);
-    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineWideColor.G, endColor.sunShineWideColor.G, sunAngle);
-    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineWideColor.B, endColor.sunShineWideColor.B, sunAngle);
-    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.sunShineWideColor.A, endColor.sunShineWideColor.A, sunAngle);
+    const R = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineWideColor.R, endColor.shineWideColor.R, angle);
+    const G = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineWideColor.G, endColor.shineWideColor.G, angle);
+    const B = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineWideColor.B, endColor.shineWideColor.B, angle);
+    const A = this.mathService.curentValueCalculation(startColor.startAngle, startColor.endAngle, startColor.shineWideColor.A, endColor.shineWideColor.A, angle);
 
     return `0 0 150px 150px rgba(${R}, ${G}, ${B}, ${A})`;
   }

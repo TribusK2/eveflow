@@ -4,126 +4,126 @@
             "colorName": "Sun at Night",
             "startTime": "00:00",
             "endTime": "7:10",
-            "sunColor": {
+            "mainColor": {
                 "R": 255,
                 "G": 65,
                 "B": 0,
                 "A": 1
             },
-            "sunShineColor": {
+            "shineColor": {
                 "R": 255,
                 "G": 65,
                 "B": 0,
                 "A": 0.3
             },
-            "sunShineWideColor": {
+            "shineWideColor": {
                 "R": 255,
                 "G": 155,
                 "B": 0,
                 "A": 0.3
             },
-            "sunShadow": 3,
-            "sunShineShadow": 40
+            "shadow": 3,
+            "shineShadow": 40
         },
         {
             "colorName": "Sun Rise",
             "startTime": "07:10",
             "endTime": "09:10",
-            "sunColor": {
+            "mainColor": {
                 "R": 255,
                 "G": 65,
                 "B": 0,
                 "A": 1
             },
-            "sunShineColor": {
+            "shineColor": {
                 "R": 255,
                 "G": 65,
                 "B": 0,
                 "A": 0.3
             },
-            "sunShineWideColor": {
+            "shineWideColor": {
                 "R": 255,
                 "G": 155,
                 "B": 0,
                 "A": 0.3
             },
-            "sunShadow": 3,
-            "sunShineShadow": 40
+            "shadow": 3,
+            "shineShadow": 40
         },
         {
             "colorName": "Sun Rise End",
             "startTime": "09:10",
             "endTime": "16:50",
-            "sunColor": {
+            "mainColor": {
                 "R": 255,
                 "G": 255,
                 "B": 255,
                 "A": 1
             },
-            "sunShineColor": {
+            "shineColor": {
                 "R": 255,
                 "G": 255,
                 "B": 155,
                 "A": 0.3
             },
-            "sunShineWideColor": {
+            "shineWideColor": {
                 "R": 255,
                 "G": 255,
                 "B": 220,
                 "A": 0.3
             },
-            "sunShadow": 15,
-            "sunShineShadow": 60
+            "shadow": 15,
+            "shineShadow": 60
         },
         {
             "colorName": "Sun Set",
             "startTime": "16:50",
             "endTime": "18:50",
-            "sunColor": {
+            "mainColor": {
                 "R": 255,
                 "G": 255,
                 "B": 255,
                 "A": 1
             },
-            "sunShineColor": {
+            "shineColor": {
                 "R": 255,
                 "G": 255,
                 "B": 155,
                 "A": 0.3
             },
-            "sunShineWideColor": {
+            "shineWideColor": {
                 "R": 255,
                 "G": 255,
                 "B": 220,
                 "A": 0.3
             },
-            "sunShadow": 15,
-            "sunShineShadow": 60
+            "shadow": 15,
+            "shineShadow": 60
         },
         {
             "colorName": "Sun Set End",
             "startTime": "18:50",
             "endTime": "24:00",
-            "sunColor": {
+            "mainColor": {
                 "R": 255,
                 "G": 65,
                 "B": 0,
                 "A": 1
             },
-            "sunShineColor": {
+            "shineColor": {
                 "R": 255,
                 "G": 65,
                 "B": 0,
                 "A": 0.3
             },
-            "sunShineWideColor": {
+            "shineWideColor": {
                 "R": 255,
                 "G": 155,
                 "B": 0,
                 "A": 0.3
             },
-            "sunShadow": 3,
-            "sunShineShadow": 40
+            "shadow": 3,
+            "shineShadow": 40
         }
     ]
 }
